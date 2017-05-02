@@ -2,7 +2,7 @@
 const _ = require('lodash');
 const _f = require('util').format;
 const mCP = require('child_process');
-const mFs = require('fs');
+const mFs = require('fs-extra');
 const mPath = require('path');
 const mSCP = require('scp2');
 const mSSH = require('simple-ssh');
@@ -33,8 +33,14 @@ var self = module.exports = {
 	 * @returns {String|Object}
 	 */
 	profile:(k) => {return _.get(_.once(() => {return JSON.parse(mFs.readFileSync(
-		require('yargs').argv['profile'], 'utf8'
+		self.profileFileName(), 'utf8'
 	));})(), k)},
+	/**
+	 * 2017-05-03
+	 * «|| 'profile.json'» is for the remove server case.
+	 * @returns {String}
+	 */
+	profileFileName: _.once(() => {return require('yargs').argv['profile'] || 'profile.json';}),
 	/**
 	 * 2017-05-02
 	 * @param {String} folder
@@ -99,10 +105,11 @@ var self = module.exports = {
 	 * So, I use another way to create the folder on the remote server.
 	 * @param {String} file
 	 * @param {Function} cb
-	 * @param {String=} subFolder
+	 * @param {Object=} options
 	 */
-	upload:(file, cb, subFolder) => {
-		const rPath = self.trimS(self.rPath(subFolder));
+	upload:(file, cb, options) => {
+		options  = options || {};
+		const rPath = self.trimS(self.rPath(_.get(options, 'subfolder', '')));
 		self.rfsFolderCreate(rPath, () => {
 			mSCP.scp(file, self.credentials('host', 'privateKey', 'username', {path: rPath}), () => {
 				mFs.unlink(file);
