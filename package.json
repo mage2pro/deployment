@@ -1,0 +1,16 @@
+{
+	"name": "mage2pro_deployment"
+	,"version": "0.1.0"
+	,"description": "A deployment script for my Magento 2 based websites."
+	,"author": "Dmitry Fedyuk"
+	,"dependencies": {
+		"escape-string-regexp": ">=1.0.5"
+		,"lodash": ">=4.17.4"
+		,"scp2": ">=0.5.0"
+		,"simple-ssh": ">=0.9.0"
+		,"yargs": ">=7.1.0"
+	}
+	,"license": "MIT"
+	,"main": "main.js"
+	,"repository": {"type": "git", "url": "http://github.com/mage2pro/deployment.git"}
+}

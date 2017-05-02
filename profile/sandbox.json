@@ -1,0 +1,20 @@
+{
+	"db": {"local": "store"}
+	,"cygwin": "C:/tools/cygwin/bin"
+	,"remote": {"host": "5.9.188.84", "user": "www-data", "key": "C:/tools/shell/home/.ssh/id_rsa"}
+	,"sites": [
+		{
+			"url": {
+				"local": {"path": "store", "port": 800}
+				,"remote": {"domain": "mage2.pro", "path": "sandbox"}
+			}
+		}
+		,{
+			"url": {
+				"local": {"path": "store", "port": 900}
+				,"remote": {"domain": "mage2.pro", "path": "sandbox"}
+			}
+		}
+	]
+	,"workingDir": {"local": "C:/work/m2/deploy/w", "remote": "/var/www/m2"}
+}

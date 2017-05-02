@@ -1,0 +1,15 @@
+{
+	"db": {"local": "portal"}
+	,"cygwin": "C:/tools/cygwin/bin"
+	,"remote": {"host": "5.9.188.84", "user": "www-data", "key": "C:/tools/shell/home/.ssh/id_rsa"}
+	,"sites": [
+		{
+			"url": {
+				"local": {"port": 847}
+				,"remote": {"domain": "stripe.mage2.pro"}
+			}
+		}
+	]
+	,"magentoDir": {"local": "C:/work/portal/code", "remote": "/var/www/portal"}
+	,"workingDir": {"local": "C:/work/m2/deploy/w", "remote": "/var/www"}
+}
