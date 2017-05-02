@@ -17,8 +17,10 @@ module.exports = {
 	 */
 	upload:(full, cb) => {
 		const lProgramPath = mPath.dirname(process.argv[1]).replace(/\\/g, '/');
-		const lProfileTmpPath =  `${lProgramPath}/profile.json`;
-		// 2017-05-03 Transfer the current profile to the remote server.
+		const lProfileTmpPath = `${lProgramPath}/profile.json`;
+		// 2017-05-03
+		// Transfer the current profile to the remote server.
+		// https://github.com/mage2pro/deployment/blob/0.1.1/utils.js#L43
 		mFs.copySync(dfU.profileFileName(), lProfileTmpPath);
 		dfU.tar(lProgramPath, lFullPath, () => {
 			mFs.unlink(lProfileTmpPath);

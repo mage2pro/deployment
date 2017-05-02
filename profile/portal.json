@@ -1,5 +1,5 @@
 {
-	"db": {"local": "portal"}
+	"db": {"local": "portal", "remote": "portal"}
 	,"cygwin": "C:/tools/cygwin/bin"
 	,"remote": {"host": "5.9.188.84", "user": "www-data", "key": "C:/tools/shell/home/.ssh/id_rsa"}
 	,"sites": [

@@ -6,7 +6,7 @@ const mFs = require('fs-extra');
 const mPath = require('path');
 const mSCP = require('scp2');
 const mSSH = require('simple-ssh');
-var self = module.exports = {
+const self = module.exports = {
 	/**
 	 * 2017-05-01 «C:/» => «/cygdrive/c/»
 	 * @param {String} s
@@ -37,7 +37,8 @@ var self = module.exports = {
 	));})(), k)},
 	/**
 	 * 2017-05-03
-	 * «|| 'profile.json'» is for the remove server case.
+	 * «|| 'profile.json'» is for the remove server case:
+	 * https://github.com/mage2pro/deployment/blob/0.1.1/local/remoteController.js#L20
 	 * @returns {String}
 	 */
 	profileFileName: _.once(() => {return require('yargs').argv['profile'] || 'profile.json';}),
@@ -53,6 +54,13 @@ var self = module.exports = {
 	 * @param {Function} cb
 	 */
 	rfsFolderDelete: (folder, cb) => {self.ssh(`rm -rf ${folder}`, cb);},
+	/**
+	 * 2017-05-03
+	 * «|| 'profile.json'» is for the remove server case:
+	 * https://github.com/mage2pro/deployment/blob/0.1.1/local/remoteController.js#L20
+	 * @returns {String}
+	 */
+	rMagentoDir: _.once(() => {return self.trimS(self.profile('magentoDir.remote')) + '/';}),
 	/**
 	 * 2017-05-02
 	 * @returns {String=}

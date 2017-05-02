@@ -1,17 +1,14 @@
 // 2017-05-02
-const _ = require('lodash');
-const _f = require('util').format;
 const dfU = require('./utils.js');
-const mCP = require('child_process');
-const mFs = require('fs-extra');
-/*
-const magentoDir = dfU.trimS(mArg.argv['magentoDir']) + '/';
-const workingDir = dfU.trimS(mArg.argv['workingDir']) + '/';
+const magentoDir = dfU.rMagentoDir();
+const workingDir = dfU.rPath();
 console.log(magentoDir);
-console.log(workingDir);  */
+console.log(workingDir);
+require('./remote/updateMagentoDB.js')(() => {});
+/*
 const deleteFolder = (f, notify) => {mCP.exec(_f('rm -rf %s', f), () => {
 	notify ? console.log(_f('The folder «%s» is deleted.', f)) : '';
-});};
+});};*/
 /*
 deleteFolder(magentoDir);
 mFs.mkdirSync(magentoDir);
