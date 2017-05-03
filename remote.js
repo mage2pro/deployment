@@ -4,7 +4,8 @@ const magentoDir = dfU.rMagentoDir();
 const workingDir = dfU.rPath();
 console.log(magentoDir);
 console.log(workingDir);
-require('./remote/updateMagentoDB.js')(() => {});
+require('./remote/updateMagentoCode.js')(() => {});
+//require('./remote/updateMagentoDB.js')(() => {});
 /*
 const deleteFolder = (f, notify) => {mCP.exec(_f('rm -rf %s', f), () => {
 	notify ? console.log(_f('The folder «%s» is deleted.', f)) : '';
