@@ -6,7 +6,7 @@ const mPath = require('path');
 const baseName = 'program.tar.gz';
 const lFullPath = dfU.lPath(baseName);
 const rDirBN = 'program';
-const rDir = dfU.rPath(rDirBN);
+const rDir = dfU.rWorkingPath(rDirBN);
 module.exports = {
 	/** 2017-05-02 */
 	execute:() => {dfU.ssh('node remote.js', null, rDir);},

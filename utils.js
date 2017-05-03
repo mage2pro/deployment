@@ -24,9 +24,12 @@ const self = module.exports = {
 	}, cb);},
 	/**
 	 * 2017-05-02
-	 * @returns {String=}
+	 * @param {String=} s
+	 * @returns {String}
 	 */
-	lPath:(s) => {return self.lDir() + (s || '')},
+	lPath:(s) => {return _.memoize(() => {return(
+		self.trimS(self.profile('workingDir.local')) + '/'
+	);})() + (s || '');},
 	/**
 	 * 2017-05-01
 	 * @param {String} k E.g.: «db.local»
@@ -56,16 +59,21 @@ const self = module.exports = {
 	rfsFolderDelete: (folder, cb) => {self.ssh(`rm -rf ${folder}`, cb);},
 	/**
 	 * 2017-05-03
-	 * «|| 'profile.json'» is for the remove server case:
-	 * https://github.com/mage2pro/deployment/blob/0.1.1/local/remoteController.js#L20
+	 * @param {String=} s
 	 * @returns {String}
 	 */
-	rMagentoDir: _.once(() => {return self.trimS(self.profile('magentoDir.remote')) + '/';}),
+	rMagentoPath:(s) => {return _.memoize(() => {return(
+		self.trimS(self.profile('magentoDir.remote')) + '/'
+	);})() + (s || '');},
 	/**
 	 * 2017-05-02
-	 * @returns {String=}
+	 * dfS.uid(6, 'deploy-')
+	 * @param {String=} s
+	 * @returns {String}
 	 */
-	rPath:(s) => {return self.rDir() + (s || '')},
+	rWorkingPath:(s) => {return _.memoize(() => {return(
+		_f('%s/%s/', self.trimS(self.profile('workingDir.remote')), 'deploy-test')
+	);})() + (s || '');},
 	/**
 	 * 2017-05-02
 	 * @param {String} command
@@ -117,9 +125,9 @@ const self = module.exports = {
 	 */
 	upload:(file, cb, options) => {
 		options  = options || {};
-		const rPath = self.trimS(self.rPath(_.get(options, 'subfolder', '')));
-		self.rfsFolderCreate(rPath, () => {
-			mSCP.scp(file, self.credentials('host', 'privateKey', 'username', {path: rPath}), () => {
+		const rDir = self.trimS(self.rWorkingPath(_.get(options, 'subfolder', '')));
+		self.rfsFolderCreate(rDir, () => {
+			mSCP.scp(file, self.credentials('host', 'privateKey', 'username', {path: rDir}), () => {
 				mFs.unlink(file);
 				console.log(_f('The «%s» is uploaded.', mPath.basename(file)));
 				cb();
@@ -146,11 +154,4 @@ const self = module.exports = {
 	 * @returns {String}
 	 */
 	lDir: _.once(() => {return self.trimS(self.profile('workingDir.local')) + '/';}),
-	/**
-	 * 2017-05-02
-	 * dfS.uid(6, 'deploy-')
-	 * @private
-	 * @returns {String}
-	 */
-	rDir: _.once(() => {return _f('%s/%s/', self.trimS(self.profile('workingDir.remote')), 'deploy-test');})
 };

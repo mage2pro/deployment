@@ -16,20 +16,14 @@ const upload = dfU.upload;
 const buildUrl = (u) => {return _f('%s://%s', _.get(u, 'protocol', 'https'), _.filter([
 	_.filter([_.get(u, 'domain', 'localhost.com'), _.get(u, 'port')]).join(':'), _.get(u, 'path')
 ]).join('/'))};
-const self = module.exports = {
-	c_BaseNameGZ: 'db.sql.gz'
-	,execute: (cb) => {
-		const lFullName = dfU.lPath('db.sql');
-		mCP.exec(_f(`mysqldump %s > ${lFullName}`, profile('db.local')), () => {
-			var dump = mFs.readFileSync(lFullName, 'utf8');
-			const lFullNameGZ = dfU.lPath(self.c_BaseNameGZ);
-			mFs.unlink(lFullName);
-			_.each(profile('sites'), (s) => {
-				const u = s['url'];
-				dump = dump.replace(new RegExp(regEscape(buildUrl(u['local'])), 'g'), buildUrl(u['remote']));
-			});
-			mFs.writeFileSync(lFullNameGZ, mZlib.gzipSync(dump));
-			upload(lFullNameGZ, cb);
-		});
-	}
-};
+const self = module.exports = {c_BaseNameGZ: 'db.sql.gz', execute: (cb) => {
+	const lFullName = dfU.lPath('db.sql');
+	mCP.execSync(`mysqldump ${profile('db.local')} > ${lFullName}`);
+	const lFullNameGZ = dfU.lPath(self.c_BaseNameGZ);
+	mFs.writeFileSync(lFullNameGZ, mZlib.gzipSync(_.reduce(profile('sites'), (sql, site) => {
+		const u = site['url'];
+		return sql.replace(new RegExp(regEscape(buildUrl(u['local'])), 'g'), buildUrl(u['remote']));
+	}, mFs.readFileSync(lFullName, 'utf8'))));
+	mFs.unlink(lFullName);
+	upload(lFullNameGZ, cb);
+}};
