@@ -23,6 +23,11 @@ const self = module.exports = {
 		'cwd': dir, 'env': {'PATH': [self.profile('cygwin'), process.env.PATH].join(';')}, 'maxBuffer': 99999999
 	}, cb);},
 	/**
+	 * 2017-05-03
+	 * @returns {Boolean}
+	 */
+	isFull: _.once(() => {return !!require('yargs').argv['full'];}),
+	/**
 	 * 2017-05-02
 	 * @param {String=} s
 	 * @returns {String}
@@ -45,6 +50,14 @@ const self = module.exports = {
 	 * @returns {String}
 	 */
 	profileFileName: _.once(() => {return require('yargs').argv['profile'] || 'profile.json';}),
+	/**
+	 * 2017-05-03
+	 * @param {String=} s
+	 * @returns {String}
+	 */
+	programPath:(s) => {return _.memoize(() => {return(
+		mPath.dirname(process.argv[1]).replace(/\\/g, '/') + '/'
+	);})() + (s || '');},
 	/**
 	 * 2017-05-02
 	 * @param {String} folder

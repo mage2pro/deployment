@@ -6,4 +6,4 @@ const done = () => {if (2 < ++counter) {
 }};
 require('./local/uploadMagentoCode.js').execute(done);
 require('./local/uploadMagentoDB.js').execute(done);
-remoteController.upload(require('yargs').argv['full'], done);
+remoteController.upload(done);

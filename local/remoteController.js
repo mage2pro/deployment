@@ -12,17 +12,16 @@ module.exports = {
 	execute:() => {dfU.ssh('node remote.js', null, rDir);},
 	/**
 	 * 2017-05-02
-	 * @param {Boolean} full
 	 * @param {Function} cb
 	 */
-	upload:(full, cb) => {
-		const lProgramPath = mPath.dirname(process.argv[1]).replace(/\\/g, '/');
-		const lProfileTmpPath = `${lProgramPath}/profile.json`;
+	upload:(cb) => {
+		const lProfileTmpPath = dfU.programPath('profile.json');
 		// 2017-05-03
 		// Transfer the current profile to the remote server.
 		// https://github.com/mage2pro/deployment/blob/0.1.1/utils.js#L43
 		mFs.copySync(dfU.profileFileName(), lProfileTmpPath);
-		dfU.tar(lProgramPath, lFullPath, () => {
+		const full = dfU.isFull();
+		dfU.tar(dfU.trimS(dfU.programPath()), lFullPath, () => {
 			mFs.unlink(lProfileTmpPath);
 			const upload = () => {dfU.upload(lFullPath, () => {
 				dfU.ssh(`tar -xvzf ${baseName} >/dev/null`, cb, rDir);
