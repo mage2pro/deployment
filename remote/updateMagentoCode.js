@@ -9,10 +9,13 @@ const mOS = require('os');
 module.exports = (cb) => {
 	const magentoDir = dfU.trimS(dfU.rMagentoPath());
 	mFs.removeSync(magentoDir);
+	console.log(`The folder «${magentoDir}» is removed.`);
 	mFs.mkdirSync(magentoDir);
+	console.log(`The folder «${magentoDir}» is created.`);
 	const rPathGz = dfU.rWorkingPath(dfUploadMagentoCode.c_BaseNameGZ);
-	const execM = (command) => {mCP.execSync(command, {cwd: magentoDir})};
+	const execM = (command) => {mCP.execSync(command, {cwd: magentoDir});};
 	execM(`tar -xvzf ${rPathGz} >/dev/null`);
+	console.log(`The code archive «${rPathGz}» is extracted.`);
 	execM(`sudo chmod -v -R 755 . >/dev/null`);
 	console.log(mOS.homedir());
 	const c = mIni.parse(mFs.readFileSync(`${mOS.homedir()}/.my.cnf`, 'utf-8'))['mysql'];
@@ -24,5 +27,9 @@ module.exports = (cb) => {
 	mCP.execSync('sudo service php7.1-fpm restart >/dev/null');
 	//execM("find var/* -type f -or -type d | grep -v 'session' | xargs rm -rf && rm -rf pub/static/* >/dev/null");
 	//execM('rm -rf generated/code generated/metadata');
+	// 2017-05-05
+	// @todo For an unknown reason, some data have been already cached here,
+	// and we need to delete the cache again.
+	//mCP.execSync('rm -rf cache log page_cache', {cwd: `${magentoDir}/var`});
 	console.log('The remote code is updated.');
 };

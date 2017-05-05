@@ -1,5 +1,6 @@
 // 2017-05-02
 const _ = require('lodash');
+const _f = require('util').format;
 const dfU = require('../utils.js');
 const mFs = require('fs-extra');
 const mPath = require('path');
@@ -8,8 +9,13 @@ const lFullPath = dfU.lPath(baseName);
 const rDirBN = 'program';
 const rDir = dfU.rWorkingPath(rDirBN);
 module.exports = {
-	/** 2017-05-02 */
-	execute:() => {dfU.ssh('node remote.js', null, rDir);},
+	/**
+	 * 2017-05-02
+	 * 2017-05-05
+	 * If we will need to pass some extra parameters, then we can use the following code for it:
+	 * https://github.com/mage2pro/deployment/blob/0.1.0/local/remoteController.js?ts=4#L11-L14
+	 */
+	execute:() => {dfU.ssh(_f('node remote.js %s', dfU.isFull() ? '--full' : ''), null, rDir);},
 	/**
 	 * 2017-05-02
 	 * @param {Function} cb
