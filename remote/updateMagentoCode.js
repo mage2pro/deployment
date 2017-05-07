@@ -7,7 +7,7 @@ const mFs = require('fs-extra');
 const mIni = require('ini');
 const mOS = require('os');
 module.exports = (cb) => {
-	const magentoDir = dfU.trimS(dfU.rMagentoPath());
+	const magentoDir = dfU.rMagentoDir();
 	mFs.removeSync(magentoDir);
 	console.log(`The folder «${magentoDir}» is removed.`);
 	mFs.mkdirSync(magentoDir);
@@ -25,11 +25,5 @@ module.exports = (cb) => {
 		new RegExp(`'${k}' => '([^']+)'`, 'mu'), `'${k}' => '${v}'`
 	);}, mFs.readFileSync(envPath, 'utf8')));
 	mCP.execSync('sudo service php7.1-fpm restart >/dev/null');
-	//execM("find var/* -type f -or -type d | grep -v 'session' | xargs rm -rf && rm -rf pub/static/* >/dev/null");
-	//execM('rm -rf generated/code generated/metadata');
-	// 2017-05-05
-	// @todo For an unknown reason, some data have been already cached here,
-	// and we need to delete the cache again.
-	//mCP.execSync('rm -rf cache log page_cache', {cwd: `${magentoDir}/var`});
 	console.log('The remote code is updated.');
 };

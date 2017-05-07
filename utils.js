@@ -71,6 +71,11 @@ const self = module.exports = {
 	 */
 	rfsFolderDelete: (folder, cb) => {self.ssh(`rm -rf ${folder}`, cb);},
 	/**
+	 * 2017-05-07
+	 * @returns {String}
+	 */
+	rMagentoDir:() => {return _.memoize(() => {return self.trimS(self.rMagentoPath());})();},
+	/**
 	 * 2017-05-03
 	 * @param {String=} s
 	 * @returns {String}
