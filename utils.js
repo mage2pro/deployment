@@ -90,7 +90,7 @@ const self = module.exports = {
 	 * @returns {String}
 	 */
 	rWorkingPath:(s) => {return _.memoize(() => {return(
-		_f('%s/%s/', self.trimS(self.profile('workingDir.remote')), 'deploy-test')
+		_f('%s/%s/', self.trimS(self.profile('workingDir.remote')), 'deploy-temp')
 	);})() + (s || '');},
 	/**
 	 * 2017-05-02
