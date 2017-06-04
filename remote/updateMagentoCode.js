@@ -18,7 +18,7 @@ module.exports = (cb) => {
 	console.log(`The code archive «${rPathGz}» is extracted.`);
 	execM(`sudo chmod -v -R 755 . >/dev/null`);
 	console.log(mOS.homedir());
-	const c = mIni.parse(mFs.readFileSync(`${mOS.homedir()}/.my.cnf`, 'utf-8'))['mysql'];
+	const c = mIni.parse(mFs.readFileSync(`/etc/mysql/my.cnf`, 'utf-8'))['mysql'];
 	const map = {dbname: dfU.profile('db.remote'), host: c['host'], password: c['password'], username: c['user']};
 	const envPath = dfU.rMagentoPath('app/etc/env.php');
 	mFs.writeFileSync(envPath, _.reduce(map, (s, v, k) => {return s.replace(
