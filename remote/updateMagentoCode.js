@@ -24,6 +24,6 @@ module.exports = (cb) => {
 	mFs.writeFileSync(envPath, _.reduce(map, (s, v, k) => {return s.replace(
 		new RegExp(`'${k}' => '([^']+)'`, 'mu'), `'${k}' => '${v}'`
 	);}, mFs.readFileSync(envPath, 'utf8')));
-	mCP.execSync('sudo service php7.1-fpm restart >/dev/null');
+	mCP.execSync('sudo service php7.2-fpm restart >/dev/null');
 	console.log('The remote code is updated.');
 };
